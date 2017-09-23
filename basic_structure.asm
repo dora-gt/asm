@@ -12,7 +12,7 @@ start:
 .else:
     call func_2
 .end_if:
-    push dword [exit_code]
+    push dword eax
     mov eax, 0x1
     sub esp, 4
     int 0x80
@@ -36,7 +36,7 @@ func_1:
     push dword hello_world
     call console
     add esp, 8
-    mov dword [exit_code], 1
+    mov eax, 1
     ret
 
 func_2:
@@ -44,14 +44,14 @@ func_2:
     push dword good_night_world
     call console
     add esp, 8
-    mov dword [exit_code], 2
+    mov eax, 2
     ret
 
 section .data
-    hello_world db "Hello World!", 10
-    hello_world_len equ $ - hello_world
-    good_night_world db "Goodnight baby.", 10
-    good_night_world_len equ $ - good_night_world
+    hello_world: db "Hello World!", 10
+    hello_world_len: equ $ - hello_world
+    good_night_world: db "Goodnight baby.", 10
+    good_night_world_len: equ $ - good_night_world
 
 section .bss
     message_address: resb 4
