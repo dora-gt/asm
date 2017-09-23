@@ -12,14 +12,18 @@ start:
 .else:
     call func_2
 .end_if:
-    push dword 0
+    push dword [exit_code]
     mov eax, 0x1
     sub esp, 4
     int 0x80
 
-func_1:
-    push dword hello_world_len
-    push dword hello_world
+console:
+    mov eax, [esp + 4]
+    mov [message_address], eax
+    mov eax, [esp + 8]
+    mov [message_length], eax
+    push dword [message_length]
+    push dword [message_address]
     push dword 1
     mov eax, 4
     sub esp, 4
@@ -27,14 +31,20 @@ func_1:
     add esp, 16
     ret
 
+func_1:
+    push dword hello_world_len
+    push dword hello_world
+    call console
+    add esp, 8
+    mov dword [exit_code], 1
+    ret
+
 func_2:
     push dword good_night_world_len
     push dword good_night_world
-    push dword 1
-    mov eax, 4
-    sub esp, 4
-    int 0x80
-    add esp, 16
+    call console
+    add esp, 8
+    mov dword [exit_code], 2
     ret
 
 section .data
@@ -44,3 +54,6 @@ section .data
     good_night_world_len equ $ - good_night_world
 
 section .bss
+    message_address: resb 4
+    message_length: resb 4
+    exit_code: resb 4
