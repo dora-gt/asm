@@ -18,17 +18,15 @@ start:
     int 0x80
 
 console:
-    mov eax, [esp + 4]
-    mov [message_address], eax
-    mov eax, [esp + 8]
-    mov [message_length], eax
-    push dword [message_length]
-    push dword [message_address]
+    push dword ebp
+    mov ebp, esp
+    push dword [ebp + 12] ; length
+    push dword [ebp + 8] ; message
     push dword 1
     mov eax, 4
     sub esp, 4
     int 0x80
-    add esp, 16
+    add esp, 20
     ret
 
 func_1:
