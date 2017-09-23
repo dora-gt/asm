@@ -18,7 +18,7 @@ start:
     int 0x80
 
 console:
-    push dword ebp
+    push dword ebp ; esp -= 4
     mov ebp, esp
     push dword [ebp + 12] ; length
     push dword [ebp + 8] ; message
@@ -26,7 +26,8 @@ console:
     mov eax, 4
     sub esp, 4
     int 0x80
-    add esp, 20
+    add esp, 16
+    pop ebp
     ret
 
 func_1:
@@ -55,3 +56,5 @@ section .bss
     message_address: resb 4
     message_length: resb 4
     exit_code: resb 4
+
+
