@@ -53,8 +53,8 @@ section .data
     good_night_world_len: equ $ - good_night_world
 
 section .bss
-    message_address: resb 4
-    message_length: resb 4
+;    message_address: resb 4
+;    message_length: resb 4
 
 
 
