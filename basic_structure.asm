@@ -55,6 +55,6 @@ section .data
 section .bss
     message_address: resb 4
     message_length: resb 4
-    exit_code: resb 4
+
 
 
